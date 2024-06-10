@@ -88,6 +88,14 @@ let luckyNumbers = [7, 4, 38, 21, 16, 15, 12, 33, 31, 49]
 // - map them to strings in the format "7 is the lucky number"
 // - print the resulting array, one item per line
 
-func filterLuckyNumbers (arr: [Int]) -> [Int]{
-    return [1]
+func filterLuckyNumbers (_ arr: [Int]) -> Void{
+    var oddNums = arr.filter {!$0.isMultiple(of: 2)}
+    var orderedArr = oddNums.sorted()
+    
+    for i in orderedArr{
+        print("\(i) is a lucky number")
+    }
+    
 }
+
+filterLuckyNumbers(luckyNumbers)
