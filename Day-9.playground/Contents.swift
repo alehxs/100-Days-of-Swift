@@ -83,9 +83,11 @@ doImportantWork{
 let luckyNumbers = [7, 4, 38, 21, 16, 15, 12, 33, 31, 49]
 
 // your job is to
-// - any #s that are even
+// - filter any #s that are even
 // - sort the array in ascending order
 // - map them to strings in the format "7 is the lucky number"
 // - print the resulting array, one item per line
 
-
+func filterLuckyNumbers (arr: [Int]) -> [Int]{
+    return [1]
+}
