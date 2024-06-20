@@ -1,14 +1,14 @@
 //
-//  WeSplit1App.swift
-//  WeSplit1
+//  GuessTheFlagApp.swift
+//  GuessTheFlag
 //
-//  Created by Alex on 6/18/24.
+//  Created by Alex on 6/19/24.
 //
 
 import SwiftUI
 
 @main
-struct WeSplit1App: App {
+struct GuessTheFlagApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
