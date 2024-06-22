@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
     
     @State private var correctAnswer = Int.random(in: 0...2)
+    @State private var questionCount = 0
     
     @State private var userScore = 0
     @State private var showingScore = false
@@ -75,10 +76,18 @@ struct ContentView: View {
             }
             .padding()
         }
-        .alert(scoreTitle, isPresented: $showingScore){
-            Button("Continue", action: askQuestion)
+        .alert(scoreTitle, isPresented: $showingScore) {
+            if userScore < 8 {
+                Button("Continue", action: askQuestion)
+            } else {
+                Button("Restart", action: resetGame)
+            }
         } message: {
-            Text("Your score is \(userScore)")
+            if userScore < 8 {
+                Text("Your score is \(userScore)")
+            } else {
+                Text("Congratulations! You got 8 questions right!")
+            }
         }
     }
     func flagTapped(_ number: Int) {
@@ -91,10 +100,21 @@ struct ContentView: View {
         showingScore = true
     }
     
-    func askQuestion(){
+    func askQuestion() {
+        if questionCount < 8 {
+            questionCount += 1
+            countries.shuffle()
+            correctAnswer = Int.random(in: 0...2)
+        } else{
+            resetGame()
+        }
+    }
+    
+    func resetGame() {
+        userScore = 0
+        questionCount = 0
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
-        
     }
 }
 
