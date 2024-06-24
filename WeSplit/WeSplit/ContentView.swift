@@ -49,13 +49,14 @@ struct ContentView: View {
                 }
                 Section("How much do you want to tip?"){
                     Picker("Tip Percentage", selection: $tipPercentage){
-//                        ForEach(tipPercentages, id: \.self){
-                        ForEach(0..<101){
+                        ForEach(tipPercentages, id: \.self){
+//                        ForEach(0..<101){
+                        
                             Text($0, format: .percent)
                         }
                     }
-//                    .pickerStyle(.segmented)
-                    .pickerStyle(.navigationLink)
+                    .pickerStyle(.segmented)
+//                    .pickerStyle(.navigationLink)
                 }
                 Section("Grand total"){
                     Text(totalAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
@@ -63,6 +64,8 @@ struct ContentView: View {
                 
                 Section("Amount per person"){
                     Text(totalPerPerson, format: .currency( code: Locale.current.currency?.identifier ?? "USD"))
+///                    Go back to project 1 and use a conditional modifier to change the total amount text view to red if the user selects a 0% tip.
+                        .foregroundStyle(tipPercentage == 0 ? .red : .black)
                 }
             }
             .navigationTitle("WeSplit")

@@ -7,20 +7,54 @@
 
 import SwiftUI
 
+//struct Title: ViewModifier{
+//    func body(content: Content) -> some View {
+//        content
+//            .font(.largeTitle)
+//            .foregroundStyle(.cyan)
+//            .padding()
+//    }
+//}
+//
+//extension View{
+//    func titleStyle() -> some View{
+//        modifier(Title())
+//    }
+//}
+
+///Create a custom ViewModifier (and accompanying View extension) that makes a view have a large, blue font suitable for prominent titles in a view.
 struct Title: ViewModifier{
     func body(content: Content) -> some View {
         content
             .font(.largeTitle)
-            .foregroundStyle(.white)
+            .foregroundStyle(.cyan)
             .padding()
-            .background(.blue)
-            .clipShape(.rect(cornerRadius: 10))
     }
 }
 
 extension View{
     func titleStyle() -> some View{
         modifier(Title())
+    }
+}
+
+struct Message: ViewModifier{
+    func body(content: Content) -> some View{
+        content
+            .padding(12)
+            .foregroundStyle(.white)
+            .background(.blue)
+            .clipShape(.rect(cornerRadius: 15))
+            
+            
+            
+            
+    }
+}
+
+extension View{
+    func messageLook() -> some View{
+        modifier(Message())
     }
 }
 
@@ -31,6 +65,7 @@ struct Watermark: ViewModifier {
         ZStack(alignment: .bottomTrailing) {
             content
             Text(text)
+
                 .font(.caption)
                 .foregroundStyle(.white)
                 .padding(5)
@@ -52,6 +87,14 @@ struct ContentView: View {
             .frame(width:300, height: 200)
             .watermarked(with: "Hacking with Swift")
             .clipShape(.rect(cornerRadius: 10))
+        
+        
+        VStack{
+            Text("Hello world!!")
+                .titleStyle()
+            Text("sm")
+                .messageLook()
+        }
     }
 }
 

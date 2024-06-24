@@ -18,6 +18,19 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var selectedFlagIndex: Int? = nil
     
+    
+///    Go back to project 2 and replace the Image view used for flags with a new FlagImage() view that renders one flag image using the specific set of modifiers we had.
+    
+    struct FlagImage: View{
+        var imageName: String
+        
+        var body: some View{
+            Image(imageName)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 5)
+        }
+        
+    }
     var body: some View{
         ZStack{
             AngularGradient(gradient: Gradient(colors: [
@@ -55,9 +68,7 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            Image(countries[number])
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .shadow(radius: 5)
+                            FlagImage(imageName: countries[number])
                         }
                     }
                 }
