@@ -1,3 +1,3 @@
 # 100 Days of Swift
 
-This is me learning Swift in ~100 days.
+My journey to learn Swift in ~100 days
