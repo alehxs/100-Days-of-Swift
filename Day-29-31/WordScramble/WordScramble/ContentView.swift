@@ -15,29 +15,49 @@ struct ContentView: View {
     @State private var errorTitle = ""
     @State private var errorMessage = ""
     @State private var showingError = false
+    
+    @State private var playerScore = 0
 
     var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    TextField("Enter your word", text: $newWord)
-                        .textInputAutocapitalization(.never)
-                }
-                
-                Section {
-                    ForEach(usedWords, id: \.self)  {word in
-                        HStack{
-                            Image(systemName: "\(word.count).circle")
-                            Text(word)
+        VStack{
+            NavigationStack {
+                VStack{
+                    List {
+                        Section {
+                            TextField("Enter your word", text: $newWord)
+                                .textInputAutocapitalization(.never)
+                        }
+                            
+                        Section {
+                            ForEach(usedWords, id: \.self)  {word in
+                                HStack{
+                                    Image(systemName: "\(word.count).circle")
+                                    Text(word)
+                                }
+                            }
+                        }
+                    }
+                    .navigationTitle(rootWord)
+                    .onSubmit(addNewWord)
+                    .onAppear(perform: startGame)
+                    .alert(errorTitle, isPresented: $showingError){} message: { Text(errorMessage) }
+                    .toolbar {
+                        ToolbarItemGroup() {
+                            Button(action: {
+                                startGame()
+                            }) {
+                                Image(systemName: "arrow.clockwise")
+                            }
                         }
                     }
                 }
             }
-            .navigationTitle(rootWord)
-            .onSubmit(addNewWord)
-            .onAppear(perform: startGame)
-            .alert(errorTitle, isPresented: $showingError){} message: { Text(errorMessage) }
-
+            Section{
+                Text("Score: \(playerScore)")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.blue)
+            }
         }
     }
     
@@ -61,9 +81,20 @@ struct ContentView: View {
             return
         }
         
+        guard isValidLength(word: answer) else {
+                wordError(title: "Word too short", message: "Your word is too short")
+                return
+            }
+        
+        guard isNotRootword(word: answer) else{
+            wordError(title: "Word is rootword", message: "You cannot use the rootword!")
+            return
+        }
+        
         withAnimation{
             usedWords.insert(answer, at: 0)
         }
+        calculatePoints(word: answer)
         newWord = ""
     }
     
@@ -111,11 +142,32 @@ struct ContentView: View {
         
         return misspelledRange.location == NSNotFound
     }
+
+    func isValidLength(word: String) -> Bool{
+        return word.count >= 3
+    }
+    
+    func isNotRootword(word: String) -> Bool{
+        return word != rootWord
+    }
     
     func wordError(title: String, message: String){
         errorTitle = title
         errorMessage = message
         showingError = true
+    }
+    
+    func calculatePoints(word: String){
+        switch word.count {
+        case 3...4:
+            playerScore += 1
+        case 5...6:
+            playerScore += 2
+        case 7...8:
+            playerScore += 3
+        default:
+            break
+        }
     }
 }
 
